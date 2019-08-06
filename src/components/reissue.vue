@@ -34,25 +34,21 @@
   <div class="box1">
     <div><p>已延误时长：。。。小时</p></div>
     <div>
-      
+
   <el-button type="primary" @click="gg()">一键补发</el-button>
    <el-button>取消</el-button>
     </div>
-    
+
   </div>
 
-  <div style="width:400px;height:250px;padding-left:340px;">
-    <pdf ref="pdf" src="../../static/first.pdf"></pdf>
-    </div>
-  
-  
-  
+
+
+
+
   </div>
 </template>
 <script>
-import pdf from 'vue-pdf'
 export default {
-   components: {pdf},
   data() {
     return {
       input: "",
@@ -88,7 +84,7 @@ export default {
       ],
       value1: ""
     };
-  },  
+  },
   methods:{
      gg:function(){
        alert(提交成功);

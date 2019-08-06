@@ -8,7 +8,11 @@
     import pdf from 'vue-pdf'
     export default{
     components: {pdf},
+    data(){
+      return {
+          pdfUrl:"../../static/first.pdf",
+      }
 }
+    }
     </script>
-   
    

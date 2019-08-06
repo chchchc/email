@@ -23,6 +23,11 @@ export default new Router({
       path: '/ccc',
       name: 'ccc',
       component: () => import('../components/pdf.vue')
+    },
+    {
+      path: '/upload',
+      name: '222',
+      component: () => import('../components/upload.vue')
     }
   ]
 })

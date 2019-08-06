@@ -2,7 +2,7 @@
   <div id="app">
     <el-container style=" border: 1px solid #eee">
       <el-aside width="200px" >
-        <el-menu :default-active="$route.path" router>
+        <el-menu :default-active="$route.path" router style="border-right:1px solid white">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-message"></i>贺卡界面
@@ -24,16 +24,21 @@
           </el-submenu>
 
           <el-menu-item index="bbb">
-            <i class="el-icon-setting"></i>贺卡配置
+            <i class="el-icon-setting" ></i>贺卡配置
           </el-menu-item>
 
-          <el-menu-item index="ccc">
+          <!-- <el-menu-item index="cc
             <i class="el-icon-time"></i>漏发提醒
-          </el-menu-item>
+          </el-menu-item> -->
 
           <el-menu-item index="aaa">
-            <i class="el-icon-position"></i>补发页面
+            <i class="el-icon-position" ></i>补发页面
           </el-menu-item>
+
+            <el-menu-item index="upload">
+            <i class="el-icon-time"></i>模板上传
+          </el-menu-item>
+
         </el-menu>
       </el-aside>
 
@@ -70,10 +75,13 @@ export default {
 }
 
 .el-aside {
-  color: rgb(169, 209, 60);
+  border-right:1px solid #eee;
 }
 .po{
   position: absolute;
   right: 15px;
 }
+/* .el-menu-item{
+  color:#409EFF;
+} */
 </style>
