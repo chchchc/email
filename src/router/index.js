@@ -15,9 +15,14 @@ export default new Router({
       component: () => import('../components/reissue.vue')
     },
     {
-      path: '/bbb',
-      name: 'bbb',
+      path: '/card-set',
+      name: 'card-set',
       component: () => import('../components/card-setting.vue')
+    },
+    {
+      path: '/old',
+      name: 'old',
+      component: () => import('../components/old.vue')
     },
     {
       path: '/ccc',

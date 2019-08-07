@@ -1,214 +1,205 @@
 <template>
-  <div>
-    <el-row>
-      <!-- <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>
-            贺卡名称：
-            <el-input style="width: 230px;" size="medium " v-model="input" placeholder="请输入内容"></el-input>
-          </span>
-        </div>
-      </el-col> -->
-      <el-col :span="8">
-        <div class="grid-content bg-purple-light">
-          <span style="padding-left">
-            贺卡类型：
-            <el-select  v-model="type"  size="medium " placeholder="请选择" @change="selectChange">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </span>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>
-            发送对象：
-            <el-select v-model="target" size="medium " placeholder="请选择">
-              <el-option
-                v-for="item in options1"
-                :key="item.value1"
-                :label="item.label"
-                :value="item.value1"
-              ></el-option>
-            </el-select>
-          </span>
-        </div>
-      </el-col>
-        <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>
-            抄送对象：
-            <el-select v-model="Cc" size="medium" placeholder="请选择">
-              <el-option
-                v-for="item in options2"
-                :key="item.value2"
-                :label="item.label"
-                :value="item.value2"
-              ></el-option>
-            </el-select>
-          </span>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>
-            重要程度：
-            <el-select v-model="importance" size="medium" placeholder="请选择">
-              <el-option
-                v-for="item in options3"
-                :key="item.value3"
-                :label="item.label"
-                :value="item.value3"
-              ></el-option>
-            </el-select>
-          </span>
-        </div>
-      </el-col>
-        <div style="text-align:right;padding-right:10px">
-       <el-button type="primary" v-on:click="sendemail">设置</el-button>
-        </div>
-    </el-row>
-
-
-    <div class="box1">
-
-<a href="http://qcloudoss.xunjiepdf.com/xunjiepdf/temp/20190806/%e6%b5%8b%e8%af%95%e8%b4%ba%e5%8d%a1.docx"><el-button type="primary">下载模板</el-button></a>
+  <div class="table">
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-edit-outline"></i> 贺卡管理
+        </el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+    <div class="container" style="padding-top:20px;">
+      <!-- <div class="handle-box">
+             <el-button type="primary" icon="el-icon-delete" class="handle-del mr10">批量删除</el-button>
+                <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
+                    <el-option key="1" label="广东省" value="广东省"></el-option>
+                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
+                </el-select>
+                <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+                <el-button type="primary" icon="el-icon-search">搜索</el-button>
+      </div>-->
 
-    <div style="width:400px;height:250px;padding-left:340px;" >
-       <pdf  style=" width: 500px;" ref="pdf" :src="pdfurl" ></pdf>
+      <span style="border-top:1px solid #eee; ">贺卡配置列表</span>
+      <el-table :data="tableData" style="width: 100%" size="small">
+        <el-table-column label="编号" width="80">
+          <template slot-scope="scope">
+            <i class="el-icon-pie-chart"></i>
+            <span style="margin-left: 10px">{{ scope.row.id }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="贺卡类型" width="180">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="top">
+              <p>类型: {{ scope.row.kind }}</p>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="medium">{{ scope.row.kind }}</el-tag>
+              </div>
+            </el-popover>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="名称" width="130">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.name }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="发送规则" width="130">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.rule }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作人" width="100">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.pepole }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="状态" width="100">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.state }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="最后操作日期" width="180">
+          <template slot-scope="scope">
+            <span style="margin-left: 10px">{{ scope.row.Date }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              icon="el-icon-edit"
+              @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button>
+            <el-button
+              size="mini"
+              icon="el-icon-delete"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="pagination">
+        <el-pagination
+          background
+          @current-change="handleCurrentChange"
+          layout="prev, pager, next"
+          :total="100"
+        ></el-pagination>
+      </div>
+      <div class="block">
+        <span class="demonstration">hover 触发子菜单</span>
+        <el-cascader
+          v-model="value"
+          :options="options"
+          :props="{ expandTrigger: 'hover' }"
+          @change="handleChange"
+        ></el-cascader>
+      </div>
     </div>
-
   </div>
 </template>
 <script>
-import pdf from "vue-pdf";
 export default {
-
-  components: { pdf },
-
   data() {
     return {
-      pdfurl:"../../static/first2-2.pdf",
-      pdfurlList:["../../static/first.pdf","../../static/first2-2.pdf"],
-      input: "",
-      options: [
+      tableData: [
         {
-          value: "newcard",
-          label: "新入职员工贺卡"
+          id: "A1",
+          kind: "新员工入职贺卡",
+          name: "新入职1号",
+          rule: "预设规则1",
+          pepole: "杨乐乐",
+          state: "已启用",
+          Date: "2018-12-16"
         },
         {
-          value: "oldcard",
-          label: "年限贺卡"
+          id: "A2",
+          kind: "新员工入职贺卡",
+          name: "新入职2号",
+          rule: "预设规则1",
+          pepole: "杨乐乐",
+          state: "未启用",
+          Date: "2019-07-27"
+        },
+        {
+          id: "B1",
+          kind: "老员工回归贺卡",
+          name: "老员工1号",
+          rule: "预设规则2",
+          pepole: "杨乐乐",
+          state: "已启用",
+          Date: "2019-05-04"
+        },
+        {
+          id: "C",
+          kind: "年限贺卡",
+          name: "满一年贺卡",
+          rule: "预设规则3",
+          pepole: "杨乐乐",
+          state: "已启用",
+          Date: "2019-07-16"
         }
       ],
-      type: "newcard",
-
-
-      options1: [
-
+      value:[],
+      options:[
         {
-          value1: "new",
-          label: "新入职员工"
-        },
-        {
-          value1: "old",
-          label: "老员工"
-        },
-         {
-          value1: "all",
-          label: "全部"
-        },
-      ],
-      target: "new",
-      options2: [
-         {
-          value2: "all",
-          label: "全部"
+               value: 'ziyuan',
+          label: '资源',
+          children: [{
+            value: 'axure',
+            label: 'Axure Components'
+          }, {
+            value: 'sketch',
+            label: 'Sketch Templates'
+          }, {
+            value: 'jiaohu',
+            label: '组件交互文档'
+          }]
         }
-      ],
-      Cc: "all",
-      options3: [
-        {
-          value3: "1",
-          label: "1"
-        },
-        {
-          value3: "2",
-          label: "2"
-        },
-        {
-          value3: "3",
-          label: "3"
-        },
-        {
-          value3: "4",
-          label: "4"
-        },
-        {
-          value3: "5",
-          label: "5"
-        }
-      ],
-     importance: "3"
+      ]
     };
   },
-   methods:{
-    sendemail:function(){
-     var postData = this.$qs.stringify({
-            level:this.level,
-            type:this.type,
-            CcEmail:this.CcEmail,
-            email:this.email,
-            name:this.name
-        });
-
-        this.axios.post('mail/send',postData)
-          .then(res=>{
-            console.log(res.data)
-            this.tableData = res.data
-          })
-          .catch(err=>{
-            console.log(err)
-          })
-      },
-      selectChange(val){
-       this.pdfurl= val==='newcard'?this.pdfurlList[1]:this.pdfurlList[0]
-      },
-      download(){
-       this.$refs.pdf.print()
-      }
-}
-
-}
+  methods: {
+    handleCurrentChange(val) {
+      this.cur_page = val;
+      this.getData();
+    },
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+    }
+  }
+};
 </script>
-<style >
-.box1 {
-  padding-right: 0px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
-}
-
-.el-row {
+<style scoped>
+.handle-box {
   margin-bottom: 20px;
 }
-.el-row:last-child {
-  margin-bottom: 0;
+.table {
+  width: 100%;
+  font-size: 14px;
 }
-.el-col {
-  border-radius: 4px;
+.handle-select {
+  width: 120px;
 }
 
-.grid-content {
-  border-radius: 4px;
-  min-height: 36px;
+.handle-input {
+  width: 300px;
+  display: inline-block;
+}
+.del-dialog-cnt {
+  font-size: 16px;
+  text-align: center;
+}
+.red {
+  color: #ff0000;
+}
+.mr10 {
+  margin-right: 10px;
 }
 </style>
 

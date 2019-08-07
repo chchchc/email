@@ -2,6 +2,11 @@
   <div id="app">
     <el-container style=" border: 1px solid #eee">
       <el-aside width="200px" >
+
+        <el-header style="height:39px;" >
+         <div class="po"><img src="../src/assets/smybol.jpg" alt="" style="width:147px;height:39px;"></div>
+        </el-header>
+
         <el-menu :default-active="$route.path" router style="border-right:1px solid white">
           <el-submenu index="1">
             <template slot="title">
@@ -15,17 +20,17 @@
 
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-menu"></i>HR配置
+              <i class="el-icon-menu"></i>贺卡后台配置
             </template>
             <el-menu-item-group>
-              <el-menu-item index="2-1">选项1</el-menu-item>
-              <el-menu-item index="2-2">选项2</el-menu-item>
+              <el-menu-item index="card-set">贺卡配置</el-menu-item>
+              <el-menu-item index="old">旧的</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
-          <el-menu-item index="bbb">
+          <!-- <el-menu-item index="bbb">
             <i class="el-icon-setting" ></i>贺卡配置
-          </el-menu-item>
+          </el-menu-item> -->
 
           <!-- <el-menu-item index="cc
             <i class="el-icon-time"></i>漏发提醒
@@ -43,9 +48,7 @@
       </el-aside>
 
       <el-container style="height:600px" >
-        <el-header style="height:30px;" >
-         <div class="po"><img src="../src/assets/smybol.jpg" alt="" style="width:147px;height:39px;"></div>
-        </el-header>
+
 
         <el-main>
           <router-view></router-view>
@@ -69,17 +72,14 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-.el-header {
 
-  line-height: 40px;
-}
 
 .el-aside {
   border-right:1px solid #eee;
 }
 .po{
   position: absolute;
-  right: 15px;
+  left: 25px;
 }
 /* .el-menu-item{
   color:#409EFF;
