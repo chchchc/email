@@ -5,34 +5,39 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: () => import('../components/Home.vue')
+      path: '/rule',
+      name: 'rule',
+      component: () => import('../components/rule.vue')
     },
     {
-      path: '/aaa',
-      name: 'aaa',
-      component: () => import('../components/reissue.vue')
+      path: '/send',
+      name: 'send',
+      component: () => import('../components/send.vue')
     },
     {
-      path: '/card-set',
-      name: 'card-set',
-      component: () => import('../components/card-setting.vue')
+      path: '/all',
+      name: 'all',
+      component: () => import('../components/all.vue')
     },
     {
-      path: '/old',
-      name: 'old',
-      component: () => import('../components/old.vue')
+      path: '/success',
+      name: 'success',
+      component: () => import('../components/success.vue')
     },
     {
-      path: '/ccc',
-      name: 'ccc',
-      component: () => import('../components/pdf.vue')
+      path: '/faile',
+      name: 'faile',
+      component: () => import('../components/faile.vue')
     },
     {
-      path: '/upload',
-      name: '222',
-      component: () => import('../components/upload.vue')
-    }
+      path: '/tempmanage',
+      name: 'tempmanage',
+      component: () => import('../components/tempmanage.vue')
+    },{
+      path: '/module',
+      name: 'module',
+      component: () => import('../components/cardinfo.vue')
+    },
+    
   ]
 })

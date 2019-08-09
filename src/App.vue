@@ -4,46 +4,18 @@
       <el-aside width="200px" >
 
         <el-header style="height:39px;" >
-         <div class="po"><img src="../src/assets/smybol.jpg" alt="" style="width:147px;height:39px;"></div>
+         <div class="po"><img src="../src/assets/log.png" alt="" style="width:147px;height:39px;"></div>
         </el-header>
-
         <el-menu :default-active="$route.path" router style="border-right:1px solid white">
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-message"></i>贺卡界面
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-menu"></i>贺卡后台配置
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="card-set">贺卡配置</el-menu-item>
-              <el-menu-item index="old">旧的</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-
-          <!-- <el-menu-item index="bbb">
-            <i class="el-icon-setting" ></i>贺卡配置
-          </el-menu-item> -->
-
-          <!-- <el-menu-item index="cc
-            <i class="el-icon-time"></i>漏发提醒
-          </el-menu-item> -->
-
-          <el-menu-item index="aaa">
-            <i class="el-icon-position" ></i>补发页面
+          <el-menu-item index="rule">
+            <i ></i>规则管理
           </el-menu-item>
-
-            <el-menu-item index="upload">
-            <i class="el-icon-time"></i>模板上传
-          </el-menu-item>
-
+          <el-menu-item index="tempmanage">
+            <i></i>模板管理
+          </el-menu-item> 
+       <el-menu-item index="send">
+            <i></i>发送管理
+          </el-menu-item> 
         </el-menu>
       </el-aside>
 
