@@ -9,6 +9,9 @@
       <el-breadcrumb-item>贺卡详情</el-breadcrumb-item>
     </el-breadcrumb>
 
+    <el-row>
+      <el-col :span="15">
+
     <div class="box">
       <span>
         贺卡名称：
@@ -27,6 +30,8 @@
         </el-select>
       </span>
     </div>
+      </el-col>
+      <el-col :span="9">
     <div class="box1">
       <span style="padding-left:15px;">
         <el-button size="small">下载模板</el-button>
@@ -37,8 +42,10 @@
       <span style="padding-left:15px;">
         <el-button size="small">保存</el-button>
       </span>
-    </div>
-<div style="width:400px;height:250px;padding-left:340px;" >
+    </div></el-col>
+    </el-row>
+
+<div style="width:400px;height:250px;padding-left:246px;" >
        <pdf  style=" width: 500px;" ref="pdf" :src="pdfurl" ></pdf>
     </div>
 

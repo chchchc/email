@@ -41,7 +41,7 @@
             </el-row>
           </div>
         </div>
-        
+
         <div class="header_1">
           <el-row>
             <el-col :span="3" class="own-span-col_1">
@@ -51,7 +51,7 @@
           <el-row>
             <el-col :span="3">
               <div>
-                <el-button @click='fileSaver()' icon="el-icon-download" type="primary" size="mini">导出Excel</el-button>   
+                <el-button @click='fileSaver()' icon="el-icon-download" type="primary" size="mini">导出Excel</el-button>
               </div>
             </el-col>
           </el-row>
@@ -82,7 +82,7 @@
             </el-table-column>
           <el-table-column
             align="right">
-            <template slot="header" slot-scope="scope">
+            <template slot="header" >
               <el-input
                 v-model="search"
                 size="mini"
@@ -96,7 +96,7 @@
 
 <style>
   .el-main{
-   
+
   }
 
   .block{
@@ -121,7 +121,7 @@
       border-radius:50px;
       border:solid #EFEFEF 1px;
   }
-  
+
   .container{
       padding:20px;
       background-color:white;
@@ -136,8 +136,8 @@
 <script>
   import axios from 'axios'
   import XLSX from 'xlsx'
-  import FileSaver from 'file-saver' 
-  import fecha from 'fecha' 
+  import FileSaver from 'file-saver'
+  import fecha from 'fecha'
   export default {
     data() {
       return {
@@ -225,7 +225,7 @@
             this.optionsModel= dataArray;
           })
           .catch(err=>{
-            
+
           })
       },
       fileSaver()  {
@@ -239,7 +239,7 @@
                   type: 'success'
                 });
               } catch (e) {
-                
+
               }
               return wbout;
           });
