@@ -47,12 +47,13 @@
       width="100">
       <template slot-scope="scope">
        <el-button type="text" @click="editData(scope.row,1)" >修改</el-button>
+       <el-button type="text" @click="deleteData(scope.row,1)" >解绑</el-button>
       </template>
     </el-table-column>
   </el-table>
     <el-dialog :title="editType?'修改规则':'新增规则'" :visible.sync="dialogFormVisible">
   <el-form :model="form">
-    <el-form-item label="规则名" :label-width="formLabelWidth">
+    <el-form-item label="规则名" :label-width="formLabelWidth" v-if= "editType == 0">
        <el-select v-model="form.ruleName" placeholder="请选择对象" style= "width:400px">
         <el-option label="新入职贺卡规则" value="新入职贺卡规则"></el-option>
         <el-option label="老员工入职贺卡规则" value="老员工入职贺卡规则"></el-option>
@@ -76,7 +77,7 @@
       </el-time-picker>
     </el-form-item>
 
-    <el-form-item label="贺卡模板" :label-width="formLabelWidth">
+    <el-form-item label="贺卡模板" :label-width="formLabelWidth" v-if= "editType == 0">
       <el-select v-model="form.type" placeholder="请选择类型" style= "width:400px">
           <el-option
             v-for="item in options"
@@ -117,7 +118,8 @@
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible=false">取 消</el-button>
-    <el-button type="primary" @click="onSubmit">确 定</el-button>
+    <el-button type="primary" v-if= "editType == 0" @click="onSubmit">确 定</el-button>
+    <el-button type="primary" v-if= "editType == 1" @click="onupdate">确 定</el-button>
   </div>
 </el-dialog>
 </div>
@@ -149,6 +151,23 @@ export default {
       this.getModel();
     },
     methods: {
+      onupdate(){
+        this.dialogFormVisible = false,
+        this.axios.post('/rule/update',this.$qs.stringify(this.form))
+        .then(res=>{
+          this.getRule();
+          this.$message({
+            message:res.data.msg,
+            type:'success'
+          })
+        })
+        .catch(err=>{
+          this.$message({
+            message:err,
+            type:'error'
+          })
+        })
+      },
       onSubmit() {
         this.dialogFormVisible = false,
         this.axios.post('/rule/add',this.$qs.stringify(this.form))
@@ -201,6 +220,28 @@ export default {
             type: 'error'
           });
         })
+      },
+      deleteData(row,type){
+          this.axios({
+            url:'/rule/unbund',
+            method:'GET',
+            params:{
+              type:row.type
+            }
+          })
+          .then(res=>{
+            this.getRule();
+            this.$message({
+              message:res.data.msg,
+              type:'success'
+            })
+          })
+          .catch(err=>{
+            this.$message({
+              message:err,
+              type:'error'
+            })
+          })
       },
       editData(row,type){
         this.dialogFormVisible=true;

@@ -8,14 +8,21 @@
               <div class="header-div1">模板中心</div>
             </el-col>
             <el-col :span="8">
-               <div class="imgUpload">
-                <div id="container">
-                    <el-button id="browse" icon="el-icon-upload" round type="primary"></el-button>
-                    <el-button id="start-upload" icon="el-icon-check" round type="primary"></el-button>
-                </div>
-                <ul id="filelist"></ul>
-                <pre id="console"></pre>
-              </div>
+            <el-row>
+                <el-col :span="12">
+                  <el-select v-model="uploadData.type" placeholder="请为模板选择类型">
+                    <el-option label="满一年" value="满一年"></el-option>
+                    <el-option label="满两年" value="满两年"></el-option>
+                    <el-option label="新入职员工贺卡" value="新入职员工贺卡"></el-option>
+                    <el-option label="老员工贺卡" value="老员工贺卡"></el-option>
+                  </el-select>
+                </el-col>
+                <el-col :span="12">
+                  <el-upload action="/model/upload" :data="uploadData" :on-success="handleSuccess" :on-error="handleError" :show-file-list="false">
+                    <el-button type="primary" icon="el-icon-upload">上传文件</el-button>
+                  </el-upload>
+                </el-col>
+              </el-row>
             </el-col>
           </el-row>
         </el-col>
@@ -105,7 +112,6 @@
 
 <script>
 import fecha from 'fecha';
-import plupload from "plupload";
 export default {
   data() {
     return {
@@ -114,52 +120,26 @@ export default {
       activeIndex: "1",
       tableData: [],
       search: "",
+      uploadData:{}
     };
   },
   mounted:function(){
     this.getModel();
-    this.initPlUploader();
   },
   methods: {
-    /**
-     * 初始化上传插件
-     */
-    initPlUploader() {
-      var uploader = new plupload.Uploader({
-        browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
-        url: 'model/upload' //上传地址
-      });
-
-      uploader.init(
-      );
-
-      uploader.bind('FilesAdded', function(up, files) {
-          var html = '';
-          plupload.each(files, function(file) {
-              html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
-          });
-          document.getElementById('filelist').innerHTML += html;
-      });
-
-      uploader.bind('UploadProgress', function(up, file) {
-          document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
-      });
-
-      uploader.bind('Error', function(up, err) {
-          document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
-      });
-
-      document.getElementById('start-upload').onclick = function() {
-          uploader.start();
-      };
-
-    //文件上传后触发
-    uploader.bind('FileUploaded',function(uploader,file,responseObject){
-      document.getElementById('filelist').innerHTML = "";
-      // 这里能刷新表格嘛
-    })
-
-
+    handleSuccess(response, file, fileList){
+      console.log(response);
+      this.getModel();
+      this.$message({
+        message:response.msg,
+        type:'success'
+      })
+    },
+    handleError(err, file, fileList){
+      this.$message({
+        message:err,
+        type:'error'
+      })
     },
     dateFormat(row, column, cellValue) {
         return cellValue ? fecha.format(new Date(cellValue), 'YYYY-MM-DD') : '';
@@ -275,7 +255,7 @@ export default {
       console.log(key);
       var modelType = "";
       if(key=="1"){
-        modelType = "";
+        modelType = "all";
       }
       if(key=="2-1"){
         modelType = "满一年";
