@@ -7,10 +7,11 @@
                 <el-button size="medium" class="own-button" @click="tabChange(child1)">全部</el-button>
                 <el-button size="medium" class="own-button" @click="tabChange(child2)">发送成功</el-button>
                 <el-button size="medium" class="own-button" @click="tabChange(child3)" v-on:click="a=flase" style="position:relative;">发送失败</el-button>
+                <el-button size="medium" class="own-button" @click="tabChange(child4)">未发送</el-button>
                 <div v-show="a" class="own-radius"></div>
             </div>
         </el-col>
-        
+
     </el-row>
     </div>
     <!--
@@ -31,7 +32,7 @@
     width: 13px;
     height: 13px;
     background: red;
-    float: right;  
+    float: right;
     border: -2px solid red;/*设置红色*/
     border-radius:6px;/*设置圆角*/
     left: 302px;
@@ -46,6 +47,7 @@
  import child1 from '@/components/all';
  import child2 from '@/components/success';
  import child3 from '@/components/faile';
+ import child4 from '@/components/unsent';
 
  export default {
    data () {
@@ -53,6 +55,7 @@
        child1: 'child1',
        child2: 'child2',
        child3: 'child3',
+       child4: 'child4',
        currentView: 'child1', // 默认选中第一项
        a:true,
      };
@@ -65,7 +68,8 @@
    components: {
      child1,
      child2,
-     child3
+     child3,
+     child4,
    }
  };
 </script>

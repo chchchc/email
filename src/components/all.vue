@@ -41,7 +41,7 @@
             </el-row>
           </div>
         </div>
-        
+
         <div class="header_1">
           <el-row>
             <el-col :span="3" class="own-span-col_1">
@@ -51,12 +51,12 @@
           <el-row>
             <el-col :span="3">
               <div>
-                <el-button @click='fileSaver()' icon="el-icon-download" type="primary" size="mini">导出Excel</el-button>   
+                <el-button @click='fileSaver()' icon="el-icon-download" type="primary" size="mini">导出Excel</el-button>
               </div>
             </el-col>
              <el-col :span="3">
               <div>
-                <el-button  type="primary" size="mini">一键补发</el-button>   
+                <el-button  type="primary" size="mini">一键补发</el-button>
               </div>
             </el-col>
           </el-row>
@@ -71,7 +71,7 @@
             </el-table-column>
             <el-table-column
               prop="sender"
-              label="接受人">
+              label="接收人">
             </el-table-column>
             <el-table-column
               prop="sendTime" :formatter="dateFormat"
@@ -91,7 +91,7 @@
             </el-table-column>
           <el-table-column
             align="right">
-            <template slot="header" slot-scope="scope">
+            <template slot="header" >
               <el-input
                 v-model="search"
                 size="mini"
@@ -99,6 +99,7 @@
             </template>
             <template slot-scope="scope">
                 <el-button
+                v-if="state=='失败'"
                   size="mini"
                   type="danger"
                   @click="handleDelete(scope.$index, scope.row)">补发</el-button>
@@ -110,9 +111,7 @@
 </template>
 
 <style>
-  .el-main{
-   
-  }
+
 
   .block{
       margin-top:-1px;
@@ -136,7 +135,7 @@
       border-radius:50px;
       border:solid #EFEFEF 1px;
   }
-  
+
   .container{
       padding:20px;
       background-color:white;
@@ -151,8 +150,8 @@
 <script>
   import axios from 'axios'
   import XLSX from 'xlsx'
-  import FileSaver from 'file-saver' 
-  import fecha from 'fecha' 
+  import FileSaver from 'file-saver'
+  import fecha from 'fecha'
   export default {
     data() {
       return {
