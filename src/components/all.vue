@@ -235,7 +235,7 @@
             this.count = res.data.data.length;
             var dataArray = [];
             for(var i =0;i<data.length;i++){
-               dataArray.push({value:data[i].userModel,label:data[i].userModel})
+               dataArray.push({value:i,label:data[i].userModel})
             }
             this.optionsModel= dataArray;
           })

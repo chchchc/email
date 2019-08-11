@@ -56,7 +56,7 @@
             </el-col>
              <el-col :span="3">
               <div>
-                <el-button  type="primary" size="mini">一键补发</el-button>   
+                <el-button @click='fileSaver()' icon="el-icon-download" type="primary" size="mini">一键补发</el-button>   
               </div>
             </el-col>
           </el-row>
@@ -190,6 +190,7 @@
     },
     mounted:function(){
     this.getRuleList();
+    this.getName();
     },
     methods: {
       dateFormat(row, column, cellValue) {
@@ -198,7 +199,7 @@
       searchOptions:function(){
         this.axios({
           method:'GET',
-          url:'notSend/search',
+          url:'fail/search',
           params:{
             userModel:this.model,
             startTime:this.time[0],
@@ -214,7 +215,10 @@
           this.count = res.data.data.length;
         })
         .catch(err=>{
-          console.log(err);
+         this.$message({
+            message:err,
+            type:"error"
+          })
         })
       },
       handleEdit(index, row) {
@@ -224,7 +228,7 @@
        console.log(row);
        this.axios({
           method:'GET',
-          url:'notSend/rep',
+          url:'fail/rep',
           params:{
             sendId:row.sendId,
             CcEmail:row.recipient,
@@ -240,15 +244,19 @@
           this.count = res.data.data.length;
         })
         .catch(err=>{
-          console.log(err);
+          this.$message({
+            message:err,
+            type:"error"
+          })
         })
       },
-      getRuleList:function() {
-          this.axios.get('notSend/All')
+      getName:function(){
+        this.axios({
+            url:"fail/name",
+            method:"GET"
+          })
           .then(res=>{
             var data = res.data.data;
-            this.tableData = res.data.data;
-            this.count = res.data.data.length;
             var dataArray = [];
             for(var i =0;i<data.length;i++){
                dataArray.push({value:data[i].userModel,label:data[i].userModel})
@@ -256,7 +264,29 @@
             this.optionsModel= dataArray;
           })
           .catch(err=>{
-           
+            this.$message({
+              message:err,
+              type:"error"
+            })
+          })
+      },
+      getRuleList:function() {
+          this.axios.get('fail/All')
+          .then(res=>{
+            var data = res.data.data;
+            this.tableData = res.data.data;
+            this.count = res.data.data.length;
+            var dataArray = [];
+            for(var i =0;i<data.length;i++){
+               dataArray.push({value:i,label:data[i].userModel})
+            }
+            this.optionsModel= dataArray;
+          })
+          .catch(err=>{
+            this.$message({
+                message:err,
+                type:"error"
+              })
           })
       },
       fileSaver()  {
@@ -270,7 +300,10 @@
                   type: 'success'
                 });
               } catch (e) {
-               
+                this.$message({
+                  message:e,
+                  type:"error"
+                })
               }
               return wbout;
           });

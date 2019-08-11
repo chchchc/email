@@ -179,6 +179,7 @@
     },
     mounted:function(){
     this.getRuleList();
+    this.getName();
     },
     methods: {
       dateFormat(row, column, cellValue) {
@@ -203,7 +204,10 @@
           this.count = res.data.data.length;
         })
         .catch(err=>{
-          console.log(err);
+          this.$message({
+            message:err,
+            type:"error"
+          })
         })
       },
       handleEdit(index, row) {
@@ -212,11 +216,12 @@
       handleDelete(index, row) {
         console.log(index, row);
       },
-      getRuleList:function() {
-          this.axios.get('send/All')
+      getName:function(){
+          this.axios({
+            url:"send/name",
+            method:"GET"
+          })
           .then(res=>{
-            this.tableData = res.data.data;
-            this.count = res.data.data.length;
             var data = res.data.data;
             var dataArray = [];
             for(var i =0;i<data.length;i++){
@@ -225,7 +230,23 @@
             this.optionsModel= dataArray;
           })
           .catch(err=>{
-
+            this.$message({
+              message:err,
+              type:"error"
+            })
+          })
+      },
+      getRuleList:function() {
+          this.axios.get('send/All')
+          .then(res=>{
+            this.tableData = res.data.data;
+            this.count = res.data.data.length;
+          })
+          .catch(err=>{
+              this.$message({
+              message:err,
+              type:"error"
+            })
           })
       },
       fileSaver()  {
@@ -239,7 +260,10 @@
                   type: 'success'
                 });
               } catch (e) {
-
+                this.$message({
+                  message:e,
+                  type:"error"
+                })
               }
               return wbout;
           });

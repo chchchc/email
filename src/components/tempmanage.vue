@@ -40,32 +40,34 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">入职</template>
-            <el-menu-item index="3-1">新人入职</el-menu-item>
-            <el-menu-item index="3-2">老员工入职</el-menu-item>
+            <el-menu-item index="3-1">新入职员工贺卡</el-menu-item>
+            <el-menu-item index="3-2">老员工贺卡</el-menu-item>
           </el-submenu>
         </el-menu>
 
         <el-col>
           <el-table
             ref="multipleTable"
-            :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+            :data="tableData.filter(data => !search || data.modelName.toLowerCase().includes(search.toLowerCase()))"
             tooltip-effect="dark"
             style="width: 100%"
           >
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="模板名称" prop="name"></el-table-column>
-            <el-table-column label="状态" prop="state"></el-table-column>
-            <el-table-column label="创建时间" prop="date"></el-table-column>
+            <el-table-column label="模板名称" prop="modelName"></el-table-column>
+            <el-table-column label="状态" prop="modelState"></el-table-column>
+            <el-table-column label="创建时间" prop="createdTime" :formatter="dateFormat">
+            </el-table-column>
             <el-table-column align="center">
               <template slot="header">
                 <el-input v-model="search" size="mini" placeholder="输入模板名称搜索" />
               </template>
-
-              <el-button-group>
-                <el-button type="primary" icon="el-icon-edit" size="mini" @click="modify()">编辑</el-button>
-                <el-button type="success" icon="el-icon-open" size="mini">启用</el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
-              </el-button-group>
+              <template slot-scope="scope">
+                <el-button-group>
+                  <el-button type="primary" icon="el-icon-edit" size="mini" @click="modify(scope.row)">编辑</el-button>
+                  <el-button type="success" icon="el-icon-open" size="mini" @click="state(scope.row)">启用</el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteModel(scope.row)">删除</el-button>
+                </el-button-group>
+              </template>
             </el-table-column>
           </el-table>
         </el-col>
@@ -102,28 +104,136 @@
 </style>
 
 <script>
+import fecha from 'fecha'
 export default {
   data() {
     return {
       activeIndex: "1",
-      tableData: [
-        {
-          state: "已启用",
-          name: "新入职贺卡",
-          date: "2018-08-09"
-        }
-      ],
+      tableData: [],
       search: "",
       multipleSelection: [],
       fileList: []
     };
   },
+  mounted:function(){
+    this.getModel();
+  },
   methods: {
-    modify() {
+    dateFormat(row, column, cellValue) {
+        return cellValue ? fecha.format(new Date(cellValue), 'YYYY-MM-DD') : '';
+    },
+    getModel:function(){
+        this.axios({
+          url:'model/ALL',
+          method: 'GET',
+
+        })
+        .then(res=>{
+          var data = res.data.data;
+          this.tableData = res.data.data;
+        })
+        .catch(err=>{
+          this.$message({
+            message: err,
+            type: 'error'
+          });
+        })
+    },
+    modify(row) {
       this.$router.push({ path: "/module" });
     },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+
+    state(row) {
+      this.axios({
+        methos:"GET",
+        url:'/model/state',
+        params:{
+          modelState:row.modelState,
+          modelId:row.modelId
+        }
+      })
+      .then(res=>{
+        if(res.data.code==200){
+          this.$message({
+            message: res.data.msg,
+            type: 'success'
+          });
+        }else{
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          });
+        }
+      })
+      .catch(res=>{
+         this.$message({
+            message: res,
+            type: 'error'
+          });
+      })
+    },
+
+    deleteModel(row) {
+      this.axios({
+        url:'model/delete',
+        method:'get',
+        params:{
+          modelId:row.modelId
+        }
+      })
+      .then(res=>{
+        this.$message({
+          message:res.data.msg,
+          type:'success'
+        })
+      })
+      .catch(err=>{
+        this.$message({
+          message:err,
+          type:'error'
+        })
+      })
+    },
+    handleSelect(key) {
+      console.log(key);
+      var modelType = "";
+      if(key=="1"){
+        modelType = "";
+      }
+      if(key=="2-1"){
+        modelType = "满一年";
+      }
+      if(key=="2-2"){
+        modelType = "满两年";
+      }
+      if(key=="3-1"){
+        modelType="新入职员工贺卡";
+      }
+      if(key=="3-2"){
+        modelType = "老员工贺卡";
+      }
+      // 刷新表格，类似条件搜索
+      this.axios({
+        url:"model/search",
+        method:'GET',
+        params:{
+          modelType:modelType
+        }
+      })
+      .then(res=>{
+        var data = res.data.data;
+        this.tableData = res.data.data;
+        this.$message({
+          message:res.data.msg,
+          type:'success'
+        })
+      })
+      .catch(err=>{
+        this.$message({
+          message:err,
+          type:'error'
+        })
+      })
     }
   }
 };
