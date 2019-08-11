@@ -202,9 +202,18 @@ export default {
           });
         })
       },
-      editData(scope,type){
+      editData(row,type){
         this.dialogFormVisible=true;
         this.editType=type;
+        this.form=type?row:{
+          ruleName: '',
+          ruleSender: '',
+          sendTime: '',
+          type: '',
+          ruleCc: '',
+          repTime:'',
+          way:'',
+        }
         }
       },
     };
