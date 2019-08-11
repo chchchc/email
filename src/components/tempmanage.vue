@@ -4,25 +4,24 @@
       <el-row>
         <el-col :span="24">
           <el-row>
-            <el-col :span="12">
+            <el-col :span="16">
               <div class="header-div1">模板中心</div>
             </el-col>
-            <el-col :span="12"></el-col>
+            <el-col :span="8">
+               <div class="imgUpload">
+                <div id="container">
+                    <el-button id="browse" icon="el-icon-upload" round type="primary"></el-button>
+                    <el-button id="start-upload" icon="el-icon-check" round type="primary"></el-button>
+                </div>
+                <ul id="filelist"></ul>
+                <pre id="console"></pre>
+              </div>
+            </el-col>
           </el-row>
         </el-col>
       </el-row>
     </div>
-    <div class="upModuel">
-      <el-upload
-        class="upload-demo"
-        action="https://jsonplaceholder.typicode.com/posts/"
-        multiple
-        :limit="3"
-        :file-list="fileList"
-      >
-        <el-button size="small" type="primary">点击上传</el-button>
-      </el-upload>
-    </div>
+    
     <el-divider></el-divider>
     <div id="model-container" class="model-container">
       <el-row>
@@ -105,21 +104,63 @@
 </style>
 
 <script>
-import fecha from 'fecha'
+import fecha from 'fecha';
+import plupload from "plupload";
 export default {
   data() {
     return {
+      filename: '',
+      disabled: this.isdisabled,
       activeIndex: "1",
       tableData: [],
       search: "",
-      multipleSelection: [],
-      fileList: []
     };
   },
   mounted:function(){
     this.getModel();
+    this.initPlUploader();
   },
   methods: {
+    /**
+     * 初始化上传插件
+     */
+    initPlUploader() {
+      var uploader = new plupload.Uploader({
+        browse_button: 'browse', // this can be an id of a DOM element or the DOM element itself
+        url: 'model/upload' //上传地址
+      });
+
+      uploader.init(
+      );
+
+      uploader.bind('FilesAdded', function(up, files) {
+          var html = '';
+          plupload.each(files, function(file) {
+              html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
+          });
+          document.getElementById('filelist').innerHTML += html;
+      });
+
+      uploader.bind('UploadProgress', function(up, file) {
+          document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+      });
+
+      uploader.bind('Error', function(up, err) {
+          document.getElementById('console').innerHTML += "\nError #" + err.code + ": " + err.message;
+      });
+
+      document.getElementById('start-upload').onclick = function() {
+          uploader.start();
+      };
+
+    //文件上传后触发
+    uploader.bind('FileUploaded',function(uploader,file,responseObject){
+      document.getElementById('filelist').innerHTML = "";
+      // 这里能刷新表格嘛
+    })
+
+
+    },
     dateFormat(row, column, cellValue) {
         return cellValue ? fecha.format(new Date(cellValue), 'YYYY-MM-DD') : '';
     },
@@ -140,8 +181,9 @@ export default {
           });
         })
     },
+
     modify(row) {
-      this.$router.push({ path: "/module" });
+      this.$router.push({ name: "module" ,params:{modelName:row.modelName}});
     },
 
     state(row) {
@@ -269,7 +311,8 @@ export default {
           type:'error'
         })
       })
-    }
+    },
+
   }
 };
 </script>

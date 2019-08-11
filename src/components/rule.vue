@@ -170,7 +170,6 @@ export default {
         this.axios({
           url:'model/no_rule',
           method: 'GET',
-
         })
         .then(res=>{
           var data = res.data.data;

@@ -88,6 +88,12 @@
                 size="mini"
                 placeholder="输入关键字搜索"/>
             </template>
+             <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)">停发</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </div>

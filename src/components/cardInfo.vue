@@ -54,7 +54,7 @@
 <script>
 import pdf from "vue-pdf";
 export default {
-    components: { pdf },
+  components: { pdf },
 
   data() {
     return {
@@ -78,10 +78,14 @@ export default {
       value: "员工入职贺卡"
     };
   },
+  mounted(){
+    console.log('this.$route.params.modelName',this.$route.params.modelName);
+    this.input=this.$route.params.modelName?this.$route.params.modelName:''
+  },
   methods:{
-     selectChange(val){
-       this.pdfurl= val==='newcard'?this.pdfurlList[1]:this.pdfurlList[0]
-      },
+    selectChange(val){
+      this.pdfurl= val==='newcard'?this.pdfurlList[1]:this.pdfurlList[0]
+    },
   }
 };
 </script>
