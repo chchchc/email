@@ -99,6 +99,7 @@
             </template>
             <template slot-scope="scope">
                 <el-button
+                  v-if="scope.row.state=='失败'"
                   size="mini"
                   type="danger"
                   @click="handleDelete(scope.$index, scope.row)">补发</el-button>
@@ -110,10 +111,6 @@
 </template>
 
 <style>
-  .el-main{
-   
-  }
-
   .block{
       margin-top:-1px;
   }
@@ -194,6 +191,7 @@
     },
     mounted:function(){
     this.getRuleList();
+    this.getType();
     },
     methods: {
       dateFormat(row, column, cellValue) {
@@ -227,19 +225,38 @@
       handleDelete(index, row) {
         console.log(index, row);
       },
+      getType:function(){
+          this.axios({
+            url:'/all/type',
+            method:'GET'
+          })
+          .then(res=>{
+             var data = res.data.data;
+            var dataArray = [];
+            for(var i =0;i<data.length;i++){
+               dataArray.push({value:data[i],label:data[i]})
+            }
+            this.optionsModel= dataArray;
+          })
+          .catch(err=>{
+            this.$message({
+              message:err,
+              type:"error"
+            })
+          })
+      },
       getRuleList:function() {
           this.axios.get('all')
           .then(res=>{
             var data = res.data.data;
             this.tableData = res.data.data;
             this.count = res.data.data.length;
-            var dataArray = [];
-            for(var i =0;i<data.length;i++){
-               dataArray.push({value:i,label:data[i].userModel})
-            }
-            this.optionsModel= dataArray;
           })
           .catch(err=>{
+            this.$message({
+              message:err,
+              type:"error"
+            })
           })
       },
       fileSaver()  {

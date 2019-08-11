@@ -271,7 +271,7 @@
           })
       },
       getRuleList:function() {
-          this.axios.get('fail/All')
+          this.axios.get('fail/all')
           .then(res=>{
             var data = res.data.data;
             this.tableData = res.data.data;

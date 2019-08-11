@@ -54,7 +54,7 @@
           >
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="模板名称" prop="modelName"></el-table-column>
-            <el-table-column label="状态" prop="modelState"></el-table-column>
+            <el-table-column label="状态" prop="modelState" width="100"></el-table-column>
             <el-table-column label="创建时间" prop="createdTime" :formatter="dateFormat">
             </el-table-column>
             <el-table-column align="center">
@@ -65,6 +65,7 @@
                 <el-button-group>
                   <el-button type="primary" icon="el-icon-edit" size="mini" @click="modify(scope.row)">编辑</el-button>
                   <el-button type="success" icon="el-icon-open" size="mini" @click="state(scope.row)">启用</el-button>
+                  <el-button type="success" icon="el-icon-open" size="mini" @click="disableModel(scope.row)">禁用</el-button>
                   <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteModel(scope.row)">删除</el-button>
                 </el-button-group>
               </template>
@@ -149,10 +150,43 @@ export default {
         url:'/model/state',
         params:{
           modelState:row.modelState,
+          modelId:row.modelId,
+          modelType:row.modelType
+        }
+      })
+      .then(res=>{
+        this.getModel();
+        if(res.data.code==200){
+          this.$message({
+            message: res.data.msg,
+            type: 'success'
+          });
+        }else{
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          });
+        }
+      })
+      .catch(res=>{
+         this.$message({
+            message: res,
+            type: 'error'
+          });
+      })
+    },
+
+    disableModel(row){
+      this.axios({
+        methos:"GET",
+        url:'/model/disable',
+        params:{
+          modelState:row.modelState,
           modelId:row.modelId
         }
       })
       .then(res=>{
+        this.getModel();
         if(res.data.code==200){
           this.$message({
             message: res.data.msg,
@@ -182,6 +216,7 @@ export default {
         }
       })
       .then(res=>{
+        this.getModel();
         this.$message({
           message:res.data.msg,
           type:'success'
