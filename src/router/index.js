@@ -37,7 +37,12 @@ export default new Router({
       path: '/module',
       name: 'module',
       component: () => import('../components/cardinfo.vue')
+    }
+    ,{
+      path: '/userDes',
+      name: 'userDes',
+      component: () => import('../components/userDescription.vue')
     },
-    
+
   ]
 })

@@ -7,15 +7,18 @@
          <div class="po"><img src="../src/assets/log.png" alt="" style="width:147px;height:39px;"></div>
         </el-header>
         <el-menu :default-active="$route.path" router style="border-right:1px solid white">
-          <el-menu-item index="rule">
-            <i ></i>规则管理
+           <el-menu-item index="userDes">
+            <i></i>应用说明
           </el-menu-item>
           <el-menu-item index="tempmanage">
             <i></i>模板管理
-          </el-menu-item> 
+          </el-menu-item>
+           <el-menu-item index="rule">
+            <i ></i>规则管理
+          </el-menu-item>
        <el-menu-item index="send">
             <i></i>发送管理
-          </el-menu-item> 
+          </el-menu-item>
         </el-menu>
       </el-aside>
 
