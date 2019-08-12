@@ -163,7 +163,11 @@ export default {
     },
 
     modify(row) {
-      this.$router.push({ name: "module" ,params:{modelName:row.modelName}});
+      this.$router.push({ name: "module" ,
+      params:{
+        modelName:row.modelName,
+        modelType:row.modelType
+      }});
     },
 
     state(row) {
