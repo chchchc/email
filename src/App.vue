@@ -1,23 +1,26 @@
 <template>
   <div id="app">
     <el-container style=" border: 1px solid #eee">
-      <el-aside width="200px" >
+      <el-aside style="width:180px; background-color:#eee">
 
         <el-header style="height:39px;" >
-         <div class="po"><img src="../src/assets/log.png" alt="" style="width:147px;height:39px;"></div>
+         <div class="po"><img src="../src/assets/logo1.png" alt="" style="width:74px;height:42px;"></div>
         </el-header>
-        <el-menu :default-active="$route.path" router style="border-right:1px solid white">
+
+        <el-menu :default-active="$route.path" router style="border-right:1px solid white"
+         background-color="#eee"
+      text-color="black">
            <el-menu-item index="userDes">
-            <i></i>应用说明
+             <i class="el-icon-edit-outline"></i>应用说明
           </el-menu-item>
           <el-menu-item index="tempmanage">
-            <i></i>模板管理
+            <i class="el-icon-menu"></i>模板管理
           </el-menu-item>
            <el-menu-item index="rule">
-            <i ></i>规则管理
+           <i class="el-icon-document"></i>规则管理
           </el-menu-item>
        <el-menu-item index="send">
-            <i></i>发送管理
+            <i class="el-icon-s-promotion"></i>发送管理
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -53,8 +56,8 @@ export default {
   border-right:1px solid #eee;
 }
 .po{
-  position: absolute;
-  left: 25px;
+   display: flex;
+  justify-content: center;
 }
 /* .el-menu-item{
   color:#409EFF;
