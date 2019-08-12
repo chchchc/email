@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-        <el-row>
+    <el-row>
       <el-col :span="16">
         <div class="header-div1">发送管理</div>
       </el-col>
@@ -44,6 +44,11 @@
     left: 303px;
     top: 1px;
     position:absolute;
+  }
+
+  .header-div1 {
+    font-size: 25px;
+    float: left;
   }
 </style>
 

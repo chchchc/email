@@ -36,7 +36,7 @@
                 </div>
               </el-col>
               <el-col :span="10">
-                <el-button type="primary" size="medium" v-on:click="searchOptions">search</el-button>
+                <el-button type="primary" size="medium" v-on:click="searchOptions" icon="el-icon-search"></el-button>
               </el-col>
             </el-row>
           </div>
@@ -62,18 +62,22 @@
           style="width: 100%" id = "table">
             <el-table-column
               prop="sender"
+              width = "100px"
               label="接收人">
             </el-table-column>
             <el-table-column
               prop="joinTime" :formatter="dateFormat"
+              width = "92px"
               label="入职时间">
             </el-table-column>
             <el-table-column
               prop="departureTime" :formatter="dateFormat"
+              width = "92px"
               label="离职时间">
             </el-table-column>
              <el-table-column
               prop="userModel"
+              width = "110px"
               label="用户模板">
             </el-table-column>
             <el-table-column
@@ -82,19 +86,17 @@
             </el-table-column>
             <el-table-column
               prop="sendTime" :formatter="dateFormat"
+              width = "92px"
               label="发送时间">
             </el-table-column>
             <el-table-column
               prop="updatedBy"
               label="操作人">
             </el-table-column>
-            <el-table-column
-              prop="depart"
-              label="部门">
-            </el-table-column>
              <el-table-column
               prop="way"
-              label="发送方式">
+              width = "50px"
+              label="方式">
             </el-table-column>
           <el-table-column
             align="right">

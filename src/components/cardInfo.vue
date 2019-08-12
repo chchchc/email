@@ -1,11 +1,17 @@
 <template>
   <div>
+    <el-row>
+      <el-col :span="16">
+        <div class="header-div1">贺卡详情</div>
+      </el-col>
+    </el-row>
+    <el-divider></el-divider>
+
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>
         <a href="/#/tempmanage">模板管理</a>
       </el-breadcrumb-item>
-      <el-breadcrumb-item>新入职贺卡</el-breadcrumb-item>
       <el-breadcrumb-item>贺卡详情</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -118,21 +124,7 @@ export default {
         })
     },
     selectChange(val){
-      if(val==='新入职贺卡1.docx'){
-        this.pdfurl = this.pdfurlList[0];
-      }
-      if(val === '新入职贺卡2.docx'){
-         this.pdfurl = this.pdfurlList[2];
-      }
-      if(val === '新入职贺卡3.docx'){
-         this.pdfurl = this.pdfurlList[1];
-      }
-      if(val === '新入职贺卡4.docx'){
-         this.pdfurl = this.pdfurlList[3];
-      }
-      if(val === '老员工入职1.docx'){
-         this.pdfurl = this.pdfurlList[4];
-      }
+      this.pdfurl = "../../static/" + this.input.substring(0,this.input.indexOf(".")) + ".pdf";
       console.log(this.pdfurl)
       this.getType();
     },
@@ -149,6 +141,11 @@ export default {
   display: flex;
 
   padding-top: 20px;
+}
+
+.header-div1 {
+  font-size: 25px;
+  float: left;
 }
 </style>
 

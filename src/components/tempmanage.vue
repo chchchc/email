@@ -71,7 +71,7 @@
                 <el-button-group>
                   <el-button type="primary" icon="el-icon-edit" size="mini" @click="modify(scope.row)">编辑</el-button>
                   <el-button type="success" icon="el-icon-open" size="mini" @click="state(scope.row)">启用</el-button>
-                  <el-button type="success" icon="el-icon-open" size="mini" @click="disableModel(scope.row)">禁用</el-button>
+                  <el-button type="danger" icon="el-icon-lock" size="mini" @click="disableModel(scope.row)">禁用</el-button>
                   <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteModel(scope.row)">删除</el-button>
                 </el-button-group>
               </template>
@@ -171,70 +171,85 @@ export default {
     },
 
     state(row) {
-      this.axios({
-        methos:"GET",
-        url:'/model/state',
-        params:{
-          modelState:row.modelState,
-          modelId:row.modelId,
-          modelType:row.modelType
-        }
+      this.$confirm('确认启用嘛？')
+      .then(_ => {
+          this.axios({
+          methos:"GET",
+          url:'/model/state',
+          params:{
+            modelState:row.modelState,
+            modelId:row.modelId,
+            modelType:row.modelType
+          }
+        })
+        .then(res=>{
+          this.getModel();
+          if(res.data.code==200){
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            });
+          }else{
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            });
+          }
+        })
+        .catch(res=>{
+            this.$message({
+              message: res,
+              type: 'error'
+            });
+        })
       })
-      .then(res=>{
-        this.getModel();
-        if(res.data.code==200){
-          this.$message({
-            message: res.data.msg,
-            type: 'success'
-          });
-        }else{
-          this.$message({
-            message: res.data.msg,
-            type: 'error'
-          });
-        }
-      })
-      .catch(res=>{
-         this.$message({
-            message: res,
-            type: 'error'
-          });
-      })
+      .catch(_ => {
+
+      });
+      
     },
 
     disableModel(row){
-      this.axios({
-        methos:"GET",
-        url:'/model/disable',
-        params:{
-          modelState:row.modelState,
-          modelId:row.modelId
-        }
-      })
-      .then(res=>{
-        this.getModel();
-        if(res.data.code==200){
+      this.$confirm('确认禁用嘛？')
+      .then(_ => {
+        this.axios({
+          methos:"GET",
+          url:'/model/disable',
+          params:{
+            modelState:row.modelState,
+            modelId:row.modelId
+          }
+        })
+        .then(res=>{
+          this.getModel();
+          if(res.data.code==200){
+            this.$message({
+              message: res.data.msg,
+              type: 'success'
+            });
+          }else{
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            });
+          }
+        })
+        .catch(res=>{
           this.$message({
-            message: res.data.msg,
-            type: 'success'
-          });
-        }else{
-          this.$message({
-            message: res.data.msg,
-            type: 'error'
-          });
-        }
+              message: res,
+              type: 'error'
+            });
+        })
       })
-      .catch(res=>{
-         this.$message({
-            message: res,
-            type: 'error'
-          });
-      })
+      .catch(_ => {
+
+      });
     },
 
     deleteModel(row) {
-      this.axios({
+      this.$confirm('确认删除嘛？')
+      .then(_ => {
+        this.axios({
         url:'model/delete',
         method:'get',
         params:{
@@ -254,9 +269,12 @@ export default {
           type:'error'
         })
       })
+      })
+      .catch(_ => {
+
+      });
     },
     handleSelect(key) {
-      console.log(key);
       var modelType = "";
       if(key=="1"){
         modelType = "all";

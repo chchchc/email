@@ -36,7 +36,7 @@
                 </div>
               </el-col>
               <el-col :span="10">
-                <el-button type="primary" size="medium" v-on:click="searchOptions">搜索</el-button>
+                <el-button type="primary" size="medium" v-on:click="searchOptions" icon="el-icon-search"></el-button>
               </el-col>
             </el-row>
           </div>
@@ -63,7 +63,7 @@
         </div>
         <el-divider></el-divider>
         <el-table
-          :data="tableData.filter(data => !search || data.sender.toLowerCase().includes(search.toLowerCase()))"
+           :data="tableData.filter(data => !search || data.sender.toLowerCase().includes(search.toLowerCase()))"
           style="width: 100%" id = "table">
           <el-table-column
               prop="sender"
@@ -71,14 +71,17 @@
             </el-table-column>
             <el-table-column
               prop="joinTime" :formatter="dateFormat"
+              width = "95px"
               label="入职时间">
             </el-table-column>
             <el-table-column
               prop="departureTime" :formatter="dateFormat"
+              width = "95px"
               label="离职时间">
             </el-table-column>
              <el-table-column
               prop="userModel"
+              width = "130px"
               label="用户模板">
             </el-table-column>
             <el-table-column
@@ -87,19 +90,18 @@
             </el-table-column>
             <el-table-column
               prop="sendTime" :formatter="dateFormat"
+              width = "95px"
               label="发送时间">
-            </el-table-column>
-            <el-table-column
-              prop="updatedBy"
-              label="操作人">
-            </el-table-column>
-            <el-table-column
-              prop="depart"
-              label="部门">
             </el-table-column>
              <el-table-column
               prop="way"
-              label="发送方式">
+              width = "50px"
+              label="方式">
+            </el-table-column>
+            <el-table-column
+              prop="state"
+              width = "50px"
+              label="状态">
             </el-table-column>
           <el-table-column
             align="right">
@@ -235,30 +237,34 @@
         console.log(index, row);
       },
       handleDelete(index, row) {
-        console.log(index, row);
-        this.axios({
-          method:'GET',
-          url:'fail/rep',
-          params:{
-            sendId:row.sendId,
-            CcEmail:row.recipient,
-            email:row.sender,
-            name:row.userModel
-          }
-        })
-        .then(res=>{
-          this.$message({
-                message: res.data.msg,
-                type: 'success'
-          });
-          this.getRuleList();
-        })
-        .catch(err=>{
-          this.$message({
-            message:err,
-            type:"error"
+        console.log(row);
+        this.$confirm('确认补发？')
+        .then(_ => {
+          this.axios({
+            method:'GET',
+            url:'fail/rep',
+            params:{
+              sendId:row.sendId,
+              CcEmail:row.recipient,
+              email:row.sender,
+              name:row.userModel
+            }
+          })
+          .then(res=>{
+            this.$message({
+                  message: res.data.msg,
+                  type: 'success'
+            });
+            this.getRuleList();
+          })
+          .catch(err=>{
+            this.$message({
+              message:err,
+              type:"error"
+            })
           })
         })
+        .catch(_ => {});
       },
       getType:function(){
           this.axios({
