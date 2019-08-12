@@ -1,6 +1,12 @@
 <template>
   <div>
     <div>
+        <el-row>
+      <el-col :span="16">
+        <div class="header-div1">发送管理</div>
+      </el-col>
+    </el-row>
+    <el-divider></el-divider>
       <el-row class="own_container">
         <el-col :span="10">
             <div class="grid-content bg-purple-dark">

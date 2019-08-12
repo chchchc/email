@@ -5,7 +5,7 @@
           <div>
             <el-row>
               <el-col :span="2" class="own-span-col">
-                <span style="font-size:15px">用户模板:</span>
+                <span style="font-size:10px">用户模板:</span>
               </el-col>
               <el-col :span="4">
                 <el-select v-model="model" placeholder="请选择" size="medium">
@@ -19,7 +19,7 @@
               </el-col>
 
               <el-col :span="2" class="own-span-col">
-                <span style="font-size:15px">时间段:</span>
+                <span style="font-size:10px">时间段:</span>
               </el-col>
               <el-col :span="5">
                 <div class="block">

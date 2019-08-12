@@ -1,11 +1,16 @@
 <template>
+
 <div class="table">
-            <div class="tablename" >
-                <el-breadcrumb >
-                    <el-breadcrumb-item><i class="el-icon-lx-cascades"></i> 发送设置</el-breadcrumb-item>
-                </el-breadcrumb>
-                 <el-button size="mini" type="primary" @click="editData('',0)"><i class="el-icon-lx-cascades"></i> 新增规则</el-button>
-            </div>
+  <div><el-row>
+      <el-col :span="16">
+        <div class="header-div1">规则设置</div>
+      </el-col>
+    </el-row>
+    <el-divider></el-divider></div>
+    <div class="tablename" >
+
+    <el-button size="mini" type="primary" @click="editData('',0)"><i class="el-icon-lx-cascades"></i> 新增规则</el-button>
+    </div>
     <br>
   <el-table
     :data="tableData"
