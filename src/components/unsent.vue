@@ -60,25 +60,41 @@
         <el-table
           :data="tableData.filter(data => !search || data.sender.toLowerCase().includes(search.toLowerCase()))"
           style="width: 100%" id = "table">
-          <el-table-column
-              prop="recipient"
-              label="抄送人">
-            </el-table-column>
             <el-table-column
               prop="sender"
               label="接收人">
+            </el-table-column>
+            <el-table-column
+              prop="joinTime" :formatter="dateFormat"
+              label="入职时间">
+            </el-table-column>
+            <el-table-column
+              prop="departureTime" :formatter="dateFormat"
+              label="离职时间">
+            </el-table-column>
+             <el-table-column
+              prop="userModel"
+              label="用户模板">
+            </el-table-column>
+            <el-table-column
+              prop="recipient"
+              label="抄送人">
             </el-table-column>
             <el-table-column
               prop="sendTime" :formatter="dateFormat"
               label="发送时间">
             </el-table-column>
             <el-table-column
-              prop="userModel"
-              label="用户模板">
+              prop="updatedBy"
+              label="操作人">
             </el-table-column>
             <el-table-column
-              prop="updatedBy"
-              label="发送人">
+              prop="depart"
+              label="部门">
+            </el-table-column>
+             <el-table-column
+              prop="way"
+              label="发送方式">
             </el-table-column>
           <el-table-column
             align="right">

@@ -2,7 +2,7 @@
   <div>
     <div>
       <el-row class="own_container">
-        <el-col :span="8">
+        <el-col :span="10">
             <div class="grid-content bg-purple-dark">
                 <el-button size="medium" class="own-button" @click="tabChange(child1)">全部</el-button>
                 <el-button size="medium" class="own-button" @click="tabChange(child2)">发送成功</el-button>
@@ -35,7 +35,7 @@
     float: right;
     border: -2px solid red;/*设置红色*/
     border-radius:6px;/*设置圆角*/
-    left: 261px;
+    left: 303px;
     top: 1px;
     position:absolute;
   }

@@ -66,28 +66,40 @@
           :data="tableData.filter(data => !search || data.sender.toLowerCase().includes(search.toLowerCase()))"
           style="width: 100%" id = "table">
           <el-table-column
-              prop="recipient"
-              label="抄送人">
-            </el-table-column>
-            <el-table-column
               prop="sender"
               label="接收人">
+            </el-table-column>
+            <el-table-column
+              prop="joinTime" :formatter="dateFormat"
+              label="入职时间">
+            </el-table-column>
+            <el-table-column
+              prop="departureTime" :formatter="dateFormat"
+              label="离职时间">
+            </el-table-column>
+             <el-table-column
+              prop="userModel"
+              label="用户模板">
+            </el-table-column>
+            <el-table-column
+              prop="recipient"
+              label="抄送人">
             </el-table-column>
             <el-table-column
               prop="sendTime" :formatter="dateFormat"
               label="发送时间">
             </el-table-column>
             <el-table-column
-              prop="userModel"
-              label="用户模板">
-            </el-table-column>
-            <el-table-column
               prop="updatedBy"
-              label="发送人">
+              label="操作人">
             </el-table-column>
             <el-table-column
-              prop="state"
-              label="状态">
+              prop="depart"
+              label="部门">
+            </el-table-column>
+             <el-table-column
+              prop="way"
+              label="发送方式">
             </el-table-column>
           <el-table-column
             align="right">
@@ -224,6 +236,29 @@
       },
       handleDelete(index, row) {
         console.log(index, row);
+        this.axios({
+          method:'GET',
+          url:'fail/rep',
+          params:{
+            sendId:row.sendId,
+            CcEmail:row.recipient,
+            email:row.sender,
+            name:row.userModel
+          }
+        })
+        .then(res=>{
+          this.$message({
+                message: res.data.msg,
+                type: 'success'
+          });
+          this.getRuleList();
+        })
+        .catch(err=>{
+          this.$message({
+            message:err,
+            type:"error"
+          })
+        })
       },
       getType:function(){
           this.axios({
