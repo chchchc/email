@@ -76,20 +76,19 @@ const router = new Router({
 })
 
 router.beforeEach((to,from,next)=>{
-  NProgress.start();
- if(to.path==='/login') {
-   store.state.token?next('/'): next()
-   NProgress.done();
- }
- else{
-   if(store.state.token){
-   next()
- }else{
-  Message.error('未登录，请前往登陆')
-  next('/login')
- }
-  }
-
+    NProgress.start();
+    if(to.path==='/login') {
+      store.state.token?next('/'): next()
+      NProgress.done();
+    }
+    else{
+      if(store.state.token){
+        next()
+      }else{
+        Message.error('未登录，请前往登陆')
+        next('/login')
+      }
+    }
   })
 
   router.afterEach(()=>{

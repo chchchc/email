@@ -28,11 +28,11 @@
 export default {
   data() {
     return {
-      logining: false,
       ruleForm2: {
-        username: "admin",
-        password: "123456"
+        username: '',
+        password: '',
       },
+      logining: false,
       rules2: {
         username: [
           {
@@ -42,7 +42,10 @@ export default {
           }
         ],
         password: [
-          { required: true, message: "enter your password", trigger: "blur" }
+          { required: true, 
+            message: "enter your password", 
+            trigger: "blur" 
+          }
         ]
       },
       checked: false
@@ -50,53 +53,32 @@ export default {
   },
   methods: {
     handleSubmit(event) {
-      this.$refs.ruleForm2.validate(valid => {
-        if (valid) {
-          this.logining = true;
-          if (
-            this.ruleForm2.username === "admin" &&
-            this.ruleForm2.password === "123456"
-          ) {
-            this.logining = true;
-
-            this.axios({
-              url: "model/ALL",
-              method: "GET"
-            })
-              .then(res => {
-                //
-              })
-              .catch(err => {
-                this.$message({
-                  message: err,
-                  type: "error"
-                });
-
-              });
-              sessionStorage.setItem("user", this.ruleForm2.username);
-            let token =  'qweqweqwewqe'
-            let name = 'lihua' // res.data.data
-            this.$store.commit("setToken", token);
-            this.$store.commit("setName", name);
-            document.cookie = "token=" + token;
-            document.cookie = "name=" + name;
-            this.$router.push({ path: "/userDes" });
-               this.logining = false;
-
-          } else {
-            this.logining = false;
-            this.$alert("username or password wrong!", "info", {
-              confirmButtonText: "ok"
-            });
-          }
-        } else {
-          console.log("error submit!");
-          return false;
-        }
-      });
-    }
+        this.logining = true;
+        this.axios.post('/user_login',this.$qs.stringify(this.ruleForm2))
+        .then(res=>{
+          this.$message({
+            message:res.data.msg,
+            type:'success'
+          })
+        })
+        .catch(err=>{
+          this.logining = false;
+          this.$message({
+            message:err,
+            type:'error'
+          })
+        })
+          sessionStorage.setItem("user", this.ruleForm2.username);
+          let token =  'qweqweqwewqe'
+          let name = 'lihua' // res.data.data
+          this.$store.commit("setToken", token);
+          this.$store.commit("setName", name);
+          document.cookie = "token=" + token;
+          document.cookie = "name=" + name;
+          this.$router.push({ path: "/userDes" });
+      }
+    },
   }
-};
 </script>
 
 <style scoped>

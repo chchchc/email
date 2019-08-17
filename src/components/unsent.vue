@@ -207,7 +207,7 @@
       searchOptions:function(){
         this.axios({
           method:'GET',
-          url:'send/search',
+          url:'nosend/search',
           params:{
             userModel:this.model,
             startTime:this.time[0],
@@ -237,7 +237,7 @@
       },
       getName:function(){
           this.axios({
-            url:"send/name",
+            url:"nosend/name",
             method:"GET"
           })
           .then(res=>{
@@ -256,7 +256,7 @@
           })
       },
       getRuleList:function() {
-          this.axios.get('send/All')
+          this.axios.get('nosend/all')
           .then(res=>{
             this.tableData = res.data.data;
             this.count = res.data.data.length;
