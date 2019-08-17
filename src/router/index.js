@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import main from '@/components/main'
+import store from '@/store'
+import { Message } from 'element-ui';
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -70,3 +74,25 @@ export default new Router({
 
   ]
 })
+
+router.beforeEach((to,from,next)=>{
+  NProgress.start();
+ if(to.path==='/login') {
+   store.state.token?next('/'): next()
+   NProgress.done();
+ }
+ else{
+   if(store.state.token){
+   next()
+ }else{
+  Message.error('未登录，请前往登陆')
+  next('/login')
+ }
+  }
+
+  })
+
+  router.afterEach(()=>{
+    NProgress.done();
+  })
+export default router

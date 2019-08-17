@@ -19,11 +19,11 @@
         </el-col>
 
     </el-row>
+     <div :is="currentView"></div>
     </div>
     <!--
       动态地绑定到它的 is 特性，我们让多个组件可以使用同一个挂载点，并动态切换。
     -->
-    <div :is="currentView"></div>
   </div>
 </template>
 

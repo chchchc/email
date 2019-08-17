@@ -142,7 +142,6 @@
   }
 
   .body{
-    padding:20px;
     background-color:#EFEFEF;
   }
 </style>
