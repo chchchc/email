@@ -76,7 +76,7 @@
         <el-option label="全体员工" value="全体员工"></el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="发送时间" :label-width="formLabelWidth">
+    <el-form-item label="发送时间" :label-width="formLabelWidth" >
        <el-time-picker
         v-model="form.sendTime"
         :picker-options="{
@@ -297,7 +297,7 @@ export default {
 }
 
 .tablename{
-  
+
   display: flex;
   justify-content: space-between;
 }
