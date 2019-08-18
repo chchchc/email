@@ -35,25 +35,31 @@
                   </el-date-picker>
                 </div>
               </el-col>
-              <el-col :span="10">
+              <el-col :span="6">
                 <el-button type="primary" size="medium" v-on:click="searchOptions" icon="el-icon-search"></el-button>
               </el-col>
+              <el-col :span="4" class="own-span-col_1">
+                <span>共搜索{{count}}条数据</span>
+            </el-col>
             </el-row>
           </div>
         </div>
 
         <div class="header_1">
-          <el-row>
-            <el-col :span="3" class="own-span-col_1">
-                <span>共搜索{{count}}条数据</span>
-            </el-col>
-          </el-row>
+
           <el-row>
             <el-col :span="3">
-              <div>
+
                 <el-button @click='fileSaver()' icon="el-icon-download" type="primary" size="mini">导出Excel</el-button>
-              </div>
+
             </el-col>
+            <el-col :span="5" :offset="15">
+
+              <el-input
+                v-model="search"
+                size="mini"
+                placeholder="输入关键字搜索"/>
+           </el-col>
           </el-row>
         </div>
         <el-divider></el-divider>
@@ -62,7 +68,7 @@
           style="width: 100%" id = "table">
             <el-table-column
               prop="sender"
-              width = "100px"
+              width = "95px"
               label="接收人">
             </el-table-column>
             <el-table-column
@@ -98,15 +104,7 @@
               width = "50px"
               label="方式">
             </el-table-column>
-          <el-table-column
-            align="right">
-            <template slot="header" >
-              <el-input
-                v-model="search"
-                size="mini"
-                placeholder="输入关键字搜索"/>
-            </template>
-          </el-table-column>
+
         </el-table>
       </div>
   </div>

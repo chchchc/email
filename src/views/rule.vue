@@ -20,6 +20,7 @@
     :data="tableData"
     :header-cell-style="{background:'#f5f7fa'}"
     border
+    stripe
     style="width: 100%">
     <el-table-column
       prop="ruleName"
@@ -78,6 +79,7 @@
     </el-form-item>
     <el-form-item label="发送时间" :label-width="formLabelWidth" >
        <el-time-picker
+       style= "width:400px"
         v-model="form.sendTime"
         :picker-options="{
           selectableRange: '00:00:00 - 23:59:50'
