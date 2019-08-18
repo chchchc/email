@@ -8,6 +8,7 @@ import 'nprogress/nprogress.css'
 Vue.use(Router)
 
 const router = new Router({
+  // mode:'history',
   routes: [
     {
       path: '/',
@@ -91,11 +92,11 @@ const router = new Router({
 router.beforeEach((to,from,next)=>{
     NProgress.start();
     if(to.path==='/login') {
-      store.state.token?next('/'): next()
+      store.state.name?next('/'): next()
       NProgress.done();
     }
     else{
-      if(store.state.token){
+      if(store.state.name){
         next()
       }else{
         Message.error('未登录，请前往登陆')

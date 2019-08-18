@@ -217,7 +217,7 @@
       searchOptions:function(){
         this.axios({
           method:'GET',
-          url:'all/search',
+          url:'http://10.201.61.194:10087/all/search',
           params:{
             userModel:this.model,
             startTime:this.time[0],
@@ -245,7 +245,7 @@
         .then(_ => {
           this.axios({
             method:'GET',
-            url:'fail/rep',
+            url:'http://10.201.61.194:10087/fail/rep',
             params:{
               sendId:row.sendId,
               CcEmail:row.recipient,
@@ -271,7 +271,7 @@
       },
       getType:function(){
           this.axios({
-            url:'/all/type',
+            url:'http://10.201.61.194:10087/all/type',
             method:'GET'
           })
           .then(res=>{
@@ -290,7 +290,7 @@
           })
       },
       getRuleList:function() {
-          this.axios.get('all')
+          this.axios.get('http://10.201.61.194:10087/all')
           .then(res=>{
             var data = res.data.data;
             this.tableData = res.data.data;

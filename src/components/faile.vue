@@ -217,7 +217,7 @@
       searchOptions:function(){
         this.axios({
           method:'GET',
-          url:'fail/search',
+          url:'http://10.201.61.194:10087/fail/search',
           params:{
             userModel:this.model,
             startTime:this.time[0],
@@ -273,7 +273,7 @@
       },
       getName:function(){
         this.axios({
-            url:"fail/name",
+            url:"http://10.201.61.194:10087/fail/name",
             method:"GET"
           })
           .then(res=>{
@@ -292,7 +292,7 @@
           })
       },
       getRuleList:function() {
-          this.axios.get('fail/all')
+          this.axios.get('http://10.201.61.194:10087/fail/all')
           .then(res=>{
             var data = res.data.data;
             this.tableData = res.data.data;

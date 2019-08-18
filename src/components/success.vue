@@ -199,7 +199,7 @@
       searchOptions:function(){
         this.axios({
           method:'GET',
-          url:'send/search',
+          url:'http://10.201.61.194:10087/send/search',
           params:{
             userModel:this.model,
             startTime:this.time[0],
@@ -229,7 +229,7 @@
       },
       getName:function(){
           this.axios({
-            url:"send/name",
+            url:"http://10.201.61.194:10087/send/name",
             method:"GET"
           })
           .then(res=>{
@@ -248,7 +248,7 @@
           })
       },
       getRuleList:function() {
-          this.axios.get('send/All')
+          this.axios.get('http://10.201.61.194:10087/send/All')
           .then(res=>{
             this.tableData = res.data.data;
             this.count = res.data.data.length;

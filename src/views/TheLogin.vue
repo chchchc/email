@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import {getCookie} from '@/utils'
 export default {
   data() {
     return {
@@ -51,31 +52,50 @@ export default {
       checked: false
     };
   },
+  mounted:function(){
+  },
   methods: {
     handleSubmit(event) {
-        this.logining = true;
-        this.axios.post('/user_login',this.$qs.stringify(this.ruleForm2))
+        // 向sso发送请求
+        var form = {
+        "grant_type":"password",
+        "username":this.ruleForm2.username,
+        "password":this.ruleForm2.password,
+        "client_id":"clientId",
+        "client_secret":"clientSecret",
+        }
+        this.axios.post('https://link.bingocc.cc:5443/sso/oauth2/token',this.$qs.stringify(form))
         .then(res=>{
           this.$message({
-            message:res.data.msg,
+            message:"校验成功",
             type:'success'
           })
+          // to do发送求
+          this.axios({
+          method:'GET',
+          url:'http://10.201.61.194:10087/cookie',
+         
+          })
+          .then(res=>{
+
+          })
+          .catch(err=>{
+            this.$message({
+              message:"获取失败",
+              type:'error'
+            })
+          })
+          let name = "管理员"; // res.data.data
+          this.$store.commit("setName", name);
+          document.cookie = "name=" + name;
+          this.$router.push({path:"/userDes"});
         })
         .catch(err=>{
-          this.logining = false;
           this.$message({
-            message:err,
+            message:"校验失败",
             type:'error'
           })
         })
-          sessionStorage.setItem("user", this.ruleForm2.username);
-          let token =  'qweqweqwewqe'
-          let name = 'lihua' // res.data.data
-          this.$store.commit("setToken", token);
-          this.$store.commit("setName", name);
-          document.cookie = "token=" + token;
-          document.cookie = "name=" + name;
-          this.$router.push({ path: "/userDes" });
       }
     },
   }

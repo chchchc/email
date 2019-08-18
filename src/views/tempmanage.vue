@@ -149,7 +149,7 @@ export default {
     },
     getModel: function() {
       this.axios({
-        url: "model/ALL",
+        url: "http://10.201.61.194:10087/model/ALL",
         method: "GET"
       })
         .then(res => {
@@ -175,101 +175,91 @@ export default {
     },
 
     state(row) {
-      this.$confirm("确认启用嘛？")
-        .then(_ => {
-          this.axios({
-            methos: "GET",
-            url: "/model/state",
-            params: {
-              modelState: row.modelState,
-              modelId: row.modelId,
-              modelType: row.modelType
-            }
-          })
-            .then(res => {
-              this.getModel();
-              if (res.data.code == 200) {
-                this.$message({
-                  message: res.data.msg,
-                  type: "success"
-                });
-              } else {
-                this.$message({
-                  message: res.data.msg,
-                  type: "error"
-                });
-              }
-            })
-            .catch(res => {
-              this.$message({
-                message: res,
-                type: "error"
-              });
-            });
+      this.$confirm("确认启用嘛？").then(_ => {
+        this.axios({
+          methos: "GET",
+          url: "http://10.201.61.194:10087/model/state",
+          params: {
+            modelState: row.modelState,
+            modelId: row.modelId,
+            modelType: row.modelType
+          }
         })
-        .catch(_ => {});
-    },
-
-    disableModel(row) {
-      this.$confirm("确认禁用嘛？")
-        .then(_ => {
-          this.axios({
-            methos: "GET",
-            url: "/model/disable",
-            params: {
-              modelState: row.modelState,
-              modelId: row.modelId
-            }
-          })
-            .then(res => {
-              this.getModel();
-              if (res.data.code == 200) {
-                this.$message({
-                  message: res.data.msg,
-                  type: "success"
-                });
-              } else {
-                this.$message({
-                  message: res.data.msg,
-                  type: "error"
-                });
-              }
-            })
-            .catch(res => {
-              this.$message({
-                message: res,
-                type: "error"
-              });
-            });
-        })
-        .catch(_ => {});
-    },
-
-    deleteModel(row) {
-      this.$confirm("确认删除嘛？")
-        .then(_ => {
-          this.axios({
-            url: "model/delete",
-            method: "get",
-            params: {
-              modelId: row.modelId
-            }
-          })
-            .then(res => {
-              this.getModel();
+          .then(res => {
+            this.getModel();
+            if (res.data.code == 200) {
               this.$message({
                 message: res.data.msg,
                 type: "success"
               });
-            })
-            .catch(err => {
+            } else {
               this.$message({
-                message: err,
+                message: res.data.msg,
                 type: "error"
               });
-            });
+            }
+          })
+          .catch(_ => {});
+      });
+    },
+
+    disableModel(row) {
+      this.$confirm("确认禁用嘛？").then(_ => {
+        this.axios({
+          methos: "GET",
+          url: "http://10.201.61.194:10087/model/disable",
+          params: {
+            modelState: row.modelState,
+            modelId: row.modelId
+          }
         })
-        .catch(_ => {});
+          .then(res => {
+            this.getModel();
+            if (res.data.code == 200) {
+              this.$message({
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(res => {
+            this.$message({
+              message: res,
+              type: "error"
+            });
+          })
+          .catch(_ => {});
+      });
+    },
+
+    deleteModel(row) {
+      this.$confirm("确认删除嘛？").then(_ => {
+        this.axios({
+          url: "http://10.201.61.194:10087/model/delete",
+          method: "get",
+          params: {
+            modelId: row.modelId
+          }
+        })
+          .then(res => {
+            this.getModel();
+            this.$message({
+              message: res.data.msg,
+              type: "success"
+            });
+          })
+          .catch(err => {
+            this.$message({
+              message: err,
+              type: "error"
+            }).catch(_ => {});
+          });
+      });
     },
     handleSelect(key) {
       var modelType = "";
@@ -290,7 +280,7 @@ export default {
       }
       // 刷新表格，类似条件搜索
       this.axios({
-        url: "model/search",
+        url: "http://10.201.61.194:10087/model/search",
         method: "GET",
         params: {
           modelType: modelType
