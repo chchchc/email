@@ -146,7 +146,7 @@ export default {
     },
     getModel:function(){
         this.axios({
-          url:'model/ALL',
+          url:'http://10.201.61.194:10087/model/ALL',
           method: 'GET',
 
         })
@@ -175,7 +175,7 @@ export default {
       .then(_ => {
           this.axios({
           methos:"GET",
-          url:'/model/state',
+          url:'http://10.201.61.194:10087/model/state',
           params:{
             modelState:row.modelState,
             modelId:row.modelId,
@@ -214,7 +214,7 @@ export default {
       .then(_ => {
         this.axios({
           methos:"GET",
-          url:'/model/disable',
+          url:'http://10.201.61.194:10087/model/disable',
           params:{
             modelState:row.modelState,
             modelId:row.modelId
@@ -250,7 +250,7 @@ export default {
       this.$confirm('确认删除嘛？')
       .then(_ => {
         this.axios({
-        url:'model/delete',
+        url:'http://10.201.61.194:10087/model/delete',
         method:'get',
         params:{
           modelId:row.modelId
@@ -293,7 +293,7 @@ export default {
       }
       // 刷新表格，类似条件搜索
       this.axios({
-        url:"model/search",
+        url:"http://10.201.61.194:10087/model/search",
         method:'GET',
         params:{
           modelType:modelType

@@ -164,7 +164,7 @@ export default {
         this.$confirm('确认更新？')
         .then(_ => {
           this.dialogFormVisible = false,
-          this.axios.post('/rule/update',this.$qs.stringify(this.form))
+          this.axios.post('http://10.201.61.194:10087/rule/update',this.$qs.stringify(this.form))
           .then(res=>{
             this.getRule();
             this.$message({
@@ -187,7 +187,7 @@ export default {
         this.$confirm('确认增加？')
           .then(_ => {
              this.dialogFormVisible = false,
-              this.axios.post('/rule/add',this.$qs.stringify(this.form))
+              this.axios.post('http://10.201.61.194:10087/rule/add',this.$qs.stringify(this.form))
               .then(res=>{
                 this.getRule();
                 this.getModel();
@@ -209,7 +209,7 @@ export default {
       },
       getModel:function(){
         this.axios({
-          url:'model/no_rule',
+          url:'http://10.201.61.194:10087/model/no_rule',
           method: 'GET',
         })
         .then(res=>{
@@ -230,7 +230,7 @@ export default {
       getRule:function(){
         this.axios({
           method:"GET",
-          url:"/rule/ALL",
+          url:"http://10.201.61.194:10087/rule/ALL",
         })
         .then(res=>{
           var data = res.data.data;
@@ -247,7 +247,7 @@ export default {
         this.$confirm('确认解绑？')
           .then(_ => {
             this.axios({
-            url:'/rule/unbund',
+            url:'http://10.201.61.194:10087/rule/unbund',
             method:'GET',
             params:{
               type:row.type

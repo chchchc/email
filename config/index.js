@@ -6,15 +6,15 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
     proxyTable: {
-      '/': {
-        target: 'http://120.197.17.151:10086',  //目标接口域名
-        changeOrigin: true,  //是否跨域
-      }
+      // '/': {
+      //   // target: 'http://localhost:10086',  //目标接口域名
+      //   target: 'http://10.201.61.194:10086',  //目标接口域名
+      //   changeOrigin: true,  //是否跨域
+      // }
     },
 
     // Various Dev Server settings
@@ -55,7 +55,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps
@@ -80,7 +80,7 @@ module.exports = {
   },
   proxyTable: {
     '/': {
-      target: 'http://localhost:80',  //目标接口域名
+      target: 'http://10.201.61.194:10086',  //目标接口域名
       changeOrigin: true,  //是否跨域
     }
   },

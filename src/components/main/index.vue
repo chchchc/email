@@ -52,11 +52,11 @@ export default {
  },
  methods:{
    logout(){
-let exp = new Date();
+    let exp = new Date();
     exp.setTime(exp.getTime() - 1);
-    let cval=getCookie('token');
+    let cval=getCookie('name');
     if(cval!=null)  document.cookie= name + "="+cval+";expires="+exp.toGMTString();
-    this.$store.commit("setToken", '');
+    this.$store.commit("setName", '');
      this.$router.push({path:'/login'})
    }
  }
