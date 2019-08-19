@@ -35,19 +35,20 @@
                   </el-date-picker>
                 </div>
               </el-col>
-              <el-col :span="10">
+              <el-col :span="6">
                 <el-button type="primary" size="medium" v-on:click="searchOptions" icon="el-icon-search"></el-button>
               </el-col>
+
+            <el-col :span="4" class="own-span-col_1">
+                <span>共搜索{{count}}条数据</span>
+            </el-col>
+
             </el-row>
           </div>
         </div>
 
         <div class="header_1">
-          <el-row>
-            <el-col :span="3" class="own-span-col_1">
-                <span>共搜索{{count}}条数据</span>
-            </el-col>
-          </el-row>
+
           <el-row>
             <el-col :span="3">
               <div>
@@ -59,6 +60,12 @@
                 <el-button  type="primary" size="mini">一键补发</el-button>
               </div>
             </el-col>
+            <el-col :span="5" :offset="12"> <div>
+              <el-input
+                v-model="search"
+                size="mini"
+                placeholder="输入关键字搜索"/>
+            </div></el-col>
           </el-row>
         </div>
         <el-divider></el-divider>
@@ -67,6 +74,7 @@
           style="width: 100%" id = "table">
           <el-table-column
               prop="sender"
+               width = "95px"
               label="接收人">
             </el-table-column>
             <el-table-column
@@ -105,12 +113,7 @@
             </el-table-column>
           <el-table-column
             align="right">
-            <template slot="header" >
-              <el-input
-                v-model="search"
-                size="mini"
-                placeholder="输入关键字搜索"/>
-            </template>
+
             <template slot-scope="scope">
                 <el-button
                   v-if="scope.row.state=='失败'"
@@ -137,6 +140,7 @@
   .own-span-col_1{
     font-size: 10px;
     padding-bottom:10px;
+    margin-top: 13px;
   }
 
   .header{

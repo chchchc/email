@@ -8,7 +8,7 @@
               <div class="header-div1">模板中心</div>
             </el-col>
             <el-col :span="8">
-            <el-row>
+              <el-row>
                 <el-col :span="12">
                   <el-select v-model="uploadData.type" placeholder="请为模板选择类型">
                     <el-option label="满一年" value="满一年"></el-option>
@@ -18,7 +18,12 @@
                   </el-select>
                 </el-col>
                 <el-col :span="12">
-                  <el-upload action="http://10.201.61.194:10087/model/upload" :data="uploadData" :on-success="handleSuccess" :on-error="handleError" :show-file-list="false">
+                  <el-upload
+                    action="http://10.201.61.194:10087/model/upload"
+                    :data="uploadData"
+                    :on-success="handleSuccess"
+                    :on-error="handleError"
+                    :show-file-list="false">
                     <el-button type="primary" icon="el-icon-upload">上传文件</el-button>
                   </el-upload>
                 </el-col>
@@ -28,15 +33,15 @@
         </el-col>
       </el-row>
     </div>
-    
+
     <el-divider></el-divider>
     <div id="model-container" class="model-container">
       <el-row>
         <el-menu
           :default-active="activeIndex"
-          class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
+          background-color="#fff"
         >
           <el-menu-item index="1">所有类型</el-menu-item>
           <el-submenu index="2">
@@ -50,43 +55,262 @@
             <el-menu-item index="3-2">老员工贺卡</el-menu-item>
           </el-submenu>
         </el-menu>
+        <div class="mobanClass">
+          <el-input v-model="search" size="mini" placeholder="输入模板名称搜索" />
+        </div>
 
-        <el-col>
-          <el-table
-            ref="multipleTable"
-            :data="tableData.filter(data => !search || data.modelName.toLowerCase().includes(search.toLowerCase()))"
-            tooltip-effect="dark"
-            style="width: 100%"
-          >
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column label="模板名称" prop="modelName"></el-table-column>
-            <el-table-column label="状态" prop="modelState" width="100"></el-table-column>
-            <el-table-column label="创建时间" prop="createdTime" :formatter="dateFormat">
-            </el-table-column>
-            <el-table-column align="center">
-              <template slot="header">
-                <el-input v-model="search" size="mini" placeholder="输入模板名称搜索" />
-              </template>
-              <template slot-scope="scope">
-                <el-button-group>
-                  <el-button type="primary" icon="el-icon-edit" size="mini" @click="modify(scope.row)">编辑</el-button>
-                  <el-button type="success" icon="el-icon-open" size="mini" @click="state(scope.row)">启用</el-button>
-                  <el-button type="danger" icon="el-icon-lock" size="mini" @click="disableModel(scope.row)">禁用</el-button>
-                  <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteModel(scope.row)">删除</el-button>
-                </el-button-group>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-col>
+        <el-table
+          ref="multipleTable"
+          :data="tableData.filter(data => !search || data.modelName.toLowerCase().includes(search.toLowerCase()))"
+          tooltip-effect="dark"
+          style="width: 100%"
+        >
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column label="模板名称" prop="modelName"></el-table-column>
+          <el-table-column label="状态" prop="modelState" width="100"></el-table-column>
+          <el-table-column label="创建时间" prop="createdTime" :formatter="dateFormat"></el-table-column>
+          <el-table-column label="操作栏"></el-table-column>
+          <el-table-column align="center">
+            <template slot-scope="scope">
+              <el-button-group>
+                <el-button
+                  type="primary"
+                  plain
+                  icon="el-icon-edit"
+                  size="mini"
+                  @click="modify(scope.row)"
+                >编辑</el-button>
+                <el-button
+                  type="success"
+                  plain
+                  icon="el-icon-open"
+                  size="mini"
+                  @click="state(scope.row)"
+                >启用</el-button>
+                <el-button
+                  type="warning"
+                  plain
+                  icon="el-icon-lock"
+                  size="mini"
+                  @click="disableModel(scope.row)"
+                >禁用</el-button>
+                <el-button
+                  type="danger"
+                  plain
+                  icon="el-icon-delete"
+                  size="mini"
+                  @click="deleteModel(scope.row)"
+                >删除</el-button>
+              </el-button-group>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-row>
     </div>
   </div>
 </template>
 
+
+
+<script>
+import fecha from "fecha";
+export default {
+  data() {
+    return {
+      filename: "",
+      disabled: this.isdisabled,
+      activeIndex: "1",
+      tableData: [],
+      search: "",
+      uploadData: {}
+    };
+  },
+  mounted: function() {
+    this.getModel();
+  },
+  methods: {
+    handleSuccess(response, file, fileList) {
+      console.log(response);
+      this.getModel();
+      this.$message({
+        message: response.msg,
+        type: "success"
+      });
+    },
+    handleError(err, file, fileList) {
+      this.$message({
+        message: err,
+        type: "error"
+      });
+    },
+    dateFormat(row, column, cellValue) {
+      return cellValue ? fecha.format(new Date(cellValue), "YYYY-MM-DD") : "";
+    },
+    getModel: function() {
+      this.axios({
+        url: "http://10.201.61.194:10087/model/ALL",
+        method: "GET"
+      })
+        .then(res => {
+          var data = res.data.data;
+          this.tableData = res.data.data;
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: "error"
+          });
+        });
+    },
+
+    modify(row) {
+      this.$router.push({
+        name: "module",
+        params: {
+          modelName: row.modelName,
+          modelType: row.modelType
+        }
+      });
+    },
+
+    state(row) {
+      this.$confirm("确认启用嘛？").then(_ => {
+        this.axios({
+          methos: "GET",
+          url: "http://10.201.61.194:10087/model/state",
+          params: {
+            modelState: row.modelState,
+            modelId: row.modelId,
+            modelType: row.modelType
+          }
+        })
+          .then(res => {
+            this.getModel();
+            if (res.data.code == 200) {
+              this.$message({
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(_ => {});
+      });
+    },
+
+    disableModel(row) {
+      this.$confirm("确认禁用嘛？").then(_ => {
+        this.axios({
+          methos: "GET",
+          url: "http://10.201.61.194:10087/model/disable",
+          params: {
+            modelState: row.modelState,
+            modelId: row.modelId
+          }
+        })
+          .then(res => {
+            this.getModel();
+            if (res.data.code == 200) {
+              this.$message({
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(res => {
+            this.$message({
+              message: res,
+              type: "error"
+            });
+          })
+          .catch(_ => {});
+      });
+    },
+
+    deleteModel(row) {
+      this.$confirm("确认删除嘛？").then(_ => {
+        this.axios({
+          url: "http://10.201.61.194:10087/model/delete",
+          method: "get",
+          params: {
+            modelId: row.modelId
+          }
+        })
+          .then(res => {
+            this.getModel();
+            this.$message({
+              message: res.data.msg,
+              type: "success"
+            });
+          })
+          .catch(err => {
+            this.$message({
+              message: err,
+              type: "error"
+            }).catch(_ => {});
+          });
+      });
+    },
+    handleSelect(key) {
+      var modelType = "";
+      if (key == "1") {
+        modelType = "all";
+      }
+      if (key == "2-1") {
+        modelType = "满一年";
+      }
+      if (key == "2-2") {
+        modelType = "满两年";
+      }
+      if (key == "3-1") {
+        modelType = "新入职员工贺卡";
+      }
+      if (key == "3-2") {
+        modelType = "老员工贺卡";
+      }
+      // 刷新表格，类似条件搜索
+      this.axios({
+        url: "http://10.201.61.194:10087/model/search",
+        method: "GET",
+        params: {
+          modelType: modelType
+        }
+      })
+        .then(res => {
+          var data = res.data.data;
+          this.tableData = res.data.data;
+          this.$message({
+            message: res.data.msg,
+            type: "success"
+          });
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: "error"
+          });
+        });
+    }
+  }
+};
+</script>
 <style>
 .header-div1 {
   font-size: 25px;
   float: left;
+}
+
+.model .el-menu-item:hover {
+  background-color: rgb(204, 204, 204) !important;
 }
 
 .model-header {
@@ -108,213 +332,13 @@
   z-index: 1000;
   right: 52px;
 }
+.mobanClass {
+  height: 28px;
+  line-height: 28px;
+  position: absolute;
+  z-index: 1;
+  top: 13px;
+  width: 200px;
+  right: 35px;
+}
 </style>
-
-<script>
-import fecha from 'fecha';
-export default {
-  data() {
-    return {
-      filename: '',
-      disabled: this.isdisabled,
-      activeIndex: "1",
-      tableData: [],
-      search: "",
-      uploadData:{}
-    };
-  },
-  mounted:function(){
-    this.getModel();
-  },
-  methods: {
-    handleSuccess(response, file, fileList){
-      console.log(response);
-      this.getModel();
-      this.$message({
-        message:response.msg,
-        type:'success'
-      })
-    },
-    handleError(err, file, fileList){
-      this.$message({
-        message:err,
-        type:'error'
-      })
-    },
-    dateFormat(row, column, cellValue) {
-        return cellValue ? fecha.format(new Date(cellValue), 'YYYY-MM-DD') : '';
-    },
-    getModel:function(){
-        this.axios({
-          url:'http://10.201.61.194:10087/model/ALL',
-          method: 'GET',
-
-        })
-        .then(res=>{
-          var data = res.data.data;
-          this.tableData = res.data.data;
-        })
-        .catch(err=>{
-          this.$message({
-            message: err,
-            type: 'error'
-          });
-        })
-    },
-
-    modify(row) {
-      this.$router.push({ name: "module" ,
-      params:{
-        modelName:row.modelName,
-        modelType:row.modelType
-      }});
-    },
-
-    state(row) {
-      this.$confirm('确认启用嘛？')
-      .then(_ => {
-          this.axios({
-          methos:"GET",
-          url:'http://10.201.61.194:10087/model/state',
-          params:{
-            modelState:row.modelState,
-            modelId:row.modelId,
-            modelType:row.modelType
-          }
-        })
-        .then(res=>{
-          this.getModel();
-          if(res.data.code==200){
-            this.$message({
-              message: res.data.msg,
-              type: 'success'
-            });
-          }else{
-            this.$message({
-              message: res.data.msg,
-              type: 'error'
-            });
-          }
-        })
-        .catch(res=>{
-            this.$message({
-              message: res,
-              type: 'error'
-            });
-        })
-      })
-      .catch(_ => {
-
-      });
-      
-    },
-
-    disableModel(row){
-      this.$confirm('确认禁用嘛？')
-      .then(_ => {
-        this.axios({
-          methos:"GET",
-          url:'http://10.201.61.194:10087/model/disable',
-          params:{
-            modelState:row.modelState,
-            modelId:row.modelId
-          }
-        })
-        .then(res=>{
-          this.getModel();
-          if(res.data.code==200){
-            this.$message({
-              message: res.data.msg,
-              type: 'success'
-            });
-          }else{
-            this.$message({
-              message: res.data.msg,
-              type: 'error'
-            });
-          }
-        })
-        .catch(res=>{
-          this.$message({
-              message: res,
-              type: 'error'
-            });
-        })
-      })
-      .catch(_ => {
-
-      });
-    },
-
-    deleteModel(row) {
-      this.$confirm('确认删除嘛？')
-      .then(_ => {
-        this.axios({
-        url:'http://10.201.61.194:10087/model/delete',
-        method:'get',
-        params:{
-          modelId:row.modelId
-        }
-      })
-      .then(res=>{
-        this.getModel();
-        this.$message({
-          message:res.data.msg,
-          type:'success'
-        })
-      })
-      .catch(err=>{
-        this.$message({
-          message:err,
-          type:'error'
-        })
-      })
-      })
-      .catch(_ => {
-
-      });
-    },
-    handleSelect(key) {
-      var modelType = "";
-      if(key=="1"){
-        modelType = "all";
-      }
-      if(key=="2-1"){
-        modelType = "满一年";
-      }
-      if(key=="2-2"){
-        modelType = "满两年";
-      }
-      if(key=="3-1"){
-        modelType="新入职员工贺卡";
-      }
-      if(key=="3-2"){
-        modelType = "老员工贺卡";
-      }
-      // 刷新表格，类似条件搜索
-      this.axios({
-        url:"http://10.201.61.194:10087/model/search",
-        method:'GET',
-        params:{
-          modelType:modelType
-        }
-      })
-      .then(res=>{
-        var data = res.data.data;
-        this.tableData = res.data.data;
-        this.$message({
-          message:res.data.msg,
-          type:'success'
-        })
-      })
-      .catch(err=>{
-        this.$message({
-          message:err,
-          type:'error'
-        })
-      })
-    },
-
-  }
-};
-</script>

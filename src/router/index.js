@@ -73,6 +73,19 @@ const router = new Router({
       component: () => import('../views/TheLogin.vue')
     },
 
+    , {
+      path: '/permission',
+      component: main,
+      children: [
+        {
+          name: 'permission',
+          path: '/',
+          component: () => import('../views/permission.vue'),
+        }
+      ]
+
+    },
+
   ]
 })
 
