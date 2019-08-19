@@ -74,10 +74,11 @@ export default {
           this.axios({
           method:'GET',
           url:'http://10.201.61.194:10087/cookie',
-         
           })
           .then(res=>{
-
+            console.loh(res);
+            var data = res.data.data;
+            setCookie("username",data[0]);
           })
           .catch(err=>{
             this.$message({
@@ -85,7 +86,7 @@ export default {
               type:'error'
             })
           })
-          let name = "管理员"; // res.data.data
+          let name = getCookie("username"); // res.data.data
           this.$store.commit("setName", name);
           document.cookie = "name=" + name;
           this.$router.push({path:"/userDes"});

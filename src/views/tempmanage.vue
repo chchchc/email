@@ -18,7 +18,7 @@
                   </el-select>
                 </el-col>
                 <el-col :span="12">
-                  <el-upload action="/model/upload" :data="uploadData" :on-success="handleSuccess" :on-error="handleError" :show-file-list="false">
+                  <el-upload action="http://10.201.61.194:10087/model/upload" :data="uploadData" :on-success="handleSuccess" :on-error="handleError" :show-file-list="false">
                     <el-button type="primary" icon="el-icon-upload">上传文件</el-button>
                   </el-upload>
                 </el-col>
